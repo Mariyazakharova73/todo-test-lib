@@ -1,24 +1,28 @@
-import { useState } from "react";
+// import { useState } from "react";
+import { useStore } from "effector-react";
+
+import { $input, change } from "../src/model";
 
 function ToDoForm({ addTask }) {
-  const [todoInput, setTodoInput] = useState("");
-
+  // const [todoInput, setTodoInput] = useState("");
+  const input = useStore($input);
+  
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    addTask(todoInput);
-    setTodoInput("");
+    addTask(input);
+    // setTodoInput("");
   };
 
-  const handleChange = (evt) => {
-    setTodoInput(evt.target.value);
-  };
+  // const handleChange = (evt) => {
+  //   setTodoInput(evt.target.value);
+  // };
 
   return (
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        value={todoInput}
-        onChange={handleChange}
+        value={input}
+        onChange={(evt) => change(evt.target.value)}
         placeholder="Введите задачу..."
       />
       <button>Сохранить</button>
