@@ -35,7 +35,7 @@ function App() {
       completed: false,
     };
     insert(newTodo);
-    // setTodos([...todos, newTodo]);
+    //  setTodos([...todos, newTodo]);
   };
 
   // const removeTask = (id) => {
@@ -56,7 +56,7 @@ function App() {
       <header>
         <h1>Список задач: {todos.length}</h1>
       </header>
-      <ToDoForm addTask={addTask} />
+      <ToDoForm addTask={addTask}/>
       {todos.map((item) => (
         <ToDo
           key={item.id}

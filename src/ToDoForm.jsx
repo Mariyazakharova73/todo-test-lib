@@ -6,7 +6,6 @@ import { $input, change } from "../src/model";
 function ToDoForm({ addTask }) {
   // const [todoInput, setTodoInput] = useState("");
   const input = useStore($input);
-  
   const handleSubmit = (evt) => {
     evt.preventDefault();
     addTask(input);
