@@ -1,0 +1,33 @@
+.form {
+  padding: 20px;
+  gap: 10px;
+  display: grid;
+}
+
+.input {
+  min-height: 20px;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.button {
+  border: none;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: rgb(87, 87, 180);
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  transition: all .5s ease-in-out;
+  opacity: 1;
+}
+
+.button:hover {
+  opacity: .7;
+}
+
+.button:disabled {
+  opacity: .8;
+  cursor: not-allowed;
+}

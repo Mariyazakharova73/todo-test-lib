@@ -1,0 +1,13 @@
+.todo {
+  box-shadow: 4px 4px 27px -8px rgba(73, 79, 84, 0.61);
+  padding: 10px;
+  border-radius: 30px;
+  display: grid;
+  justify-content: center;
+  max-width: 350px;
+  gap: 10px
+}
+
+.todoTitle {
+  text-align: center;
+}

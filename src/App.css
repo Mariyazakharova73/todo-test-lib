@@ -1,0 +1,8 @@
+.App {
+  padding: 50px 100px;
+}
+
+.todo {
+  display: grid;
+  justify-content: center;
+}

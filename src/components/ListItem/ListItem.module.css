@@ -1,0 +1,34 @@
+.listItem {
+  display: grid;
+  grid-template-columns: 30px auto 25px 25px;
+  gap: 20px;
+}
+
+.listItemText {
+  margin: 0;
+  max-width: 250px;
+  white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+.button {
+  background-color: transparent;
+  border: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 25px;
+  height: 25px;
+}
+
+.editButton {
+  background-image: url(../../assets/edit.svg);
+}
+
+.deleteButton {
+  background-image: url(../../assets/basket.svg);
+}

@@ -1,0 +1,9 @@
+.filter {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 5px;
+}
+
+.select.decorated option:hover {
+  box-shadow: 0 0 10px 100px #1882A8 inset;
+}
