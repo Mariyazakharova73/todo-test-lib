@@ -4,22 +4,30 @@ import s from './List.module.css';
 import { IListItem } from './../../types';
 
 interface ListProps {
-  data: IListItem[];
+  filteredTasks: IListItem[];
   deleteTack: (id: string) => void;
-  getTaskData: (data: IListItem) => void;
+  getEditedTask: (data: IListItem) => void;
   setInput: (text: string) => void;
+  changeChecked: any;
 }
 
-const List: FC<ListProps> = ({ data, deleteTack, getTaskData, setInput }) => {
+const List: FC<ListProps> = ({
+  filteredTasks,
+  deleteTack,
+  getEditedTask,
+  setInput,
+  changeChecked,
+}) => {
   return (
     <ul className={s.list}>
-      {data.map((item: IListItem) => {
+      {filteredTasks.map((item: IListItem) => {
         return (
           <ListItem
-          setInput={setInput}
+            changeChecked={changeChecked}
+            setInput={setInput}
             listItem={item}
             key={item.id}
-            getTaskData={getTaskData}
+            getEditedTask={getEditedTask}
             deleteTack={deleteTack}
           />
         );

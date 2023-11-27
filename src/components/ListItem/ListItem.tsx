@@ -6,20 +6,29 @@ import cn from 'classnames';
 interface ListItemProps {
   listItem: IListItem;
   deleteTack: (id: string) => void;
-  getTaskData: (data: IListItem) => void;
+  getEditedTask: (data: IListItem) => void;
   setInput: (text: string) => void;
+  changeChecked: any;
 }
 
-const ListItem: FC<ListItemProps> = ({ listItem, deleteTack, getTaskData, setInput }) => {
+const ListItem: FC<ListItemProps> = ({
+  listItem,
+  deleteTack,
+  getEditedTask,
+  setInput,
+  changeChecked,
+}) => {
   const { text, completed, id } = listItem;
   const [checked, setChecked] = useState(completed);
 
   const changeInput = () => {
+    changeChecked(id, checked);
+    console.log(id, checked);
     setChecked((prev) => !prev);
   };
 
   const editTask = () => {
-    getTaskData(listItem);
+    getEditedTask(listItem);
     setInput(text);
   };
 

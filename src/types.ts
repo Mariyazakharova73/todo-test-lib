@@ -3,3 +3,9 @@ export interface IListItem {
   text: string;
   completed: boolean;
 }
+
+export enum FilterData {
+  ALL = 'Все',
+  ONLY_COMPLETED = 'Только выполенные',
+  ONLY_UNCOMPLETED = 'Только не выполенные',
+}
