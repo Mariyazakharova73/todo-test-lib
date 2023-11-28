@@ -2,29 +2,48 @@ import React, { useState } from 'react';
 import './App.css';
 import Todo from './components/Todo/Todo';
 import { FilterData, IListItem } from './types';
+import { v1 } from 'uuid';
 
 const dataForFilter = ['Все', 'Только выполенные', 'Только не выполенные'];
 
 function App() {
-  const [tasks, setTasks] = useState([
-    { text: 'Задача1', completed: true, id: '0' },
-    { text: 'Задача2', completed: false, id: '1' },
-    { text: 'Задача3', completed: true, id: '2' },
-  ]);
+  const todolistId1 = v1();
+  const todolistId2 = v1();
 
-  const [filter, setFilter] = useState('0');
+  const [tasksObj, setTasks] = useState({
+    [todolistId1]: [
+      { text: 'Задача1', completed: true, id: v1() },
+      { text: 'Задача2', completed: false, id: v1() },
+      { text: 'Задача3', completed: true, id: v1() },
+    ],
+    [todolistId2]: [
+      { text: 'Задача1', completed: true, id: v1() },
+      { text: 'Задача2', completed: false, id: v1() },
+      { text: 'Задача3', completed: true, id: v1() },
+    ],
+  });
+
+  const [todolists, setTodolists] = useState([
+    { id: todolistId1, title: 'Первый', filter: '0' },
+    { id: todolistId2, title: 'Второй', filter: '0' },
+  ]);
 
   const [inputValue, setInputValue] = useState('');
   const [selectedInput, setSelectedInput] = useState<IListItem | null>(null);
 
-  const addTask = (value: string) => {
-    const uniq = 'id' + new Date().getTime();
-    setTasks([...tasks, { id: uniq, text: value, completed: false }]);
+  const addTask = (value: string, todolistId: string) => {
+    const newTask = { id: v1(), text: value, completed: false };
+    const tasks = tasksObj[todolistId];
+    const newTasks = [...tasks, newTask];
+    tasksObj[todolistId] = newTasks;
+    setTasks({ ...tasksObj });
   };
 
-  const deleteTack = (id: string) => {
+  const deleteTack = (id: string, todolistId: string) => {
+    let tasks = tasksObj[todolistId];
     const newTasks = tasks.filter((item) => item.id !== id);
-    setTasks(newTasks);
+    tasksObj[todolistId] = newTasks;
+    setTasks({ ...tasksObj });
   };
 
   const getEditedTask = (data: IListItem) => {
@@ -35,44 +54,31 @@ function App() {
     setInputValue(text);
   };
 
-  const changeFilter = (value: string) => {
-    setFilter(value);
+  const changeFilter = (value: string, todolistId: string) => {
+    const todolist = todolists.find((item) => item.id === todolistId);
+    if (todolist) {
+      todolist.filter = value;
+    }
+    setTodolists([...todolists]);
   };
-
-  let filteredTasks = tasks;
-
-  switch (dataForFilter[Number(filter)]) {
-    case FilterData.ONLY_COMPLETED:
-      filteredTasks = tasks.filter((item) => {
-        return item.completed;
-      });
-      break;
-    case FilterData.ONLY_UNCOMPLETED:
-      filteredTasks = tasks.filter((item) => {
-        return !item.completed;
-      });
-      break;
-    default:
-      filteredTasks = tasks;
-  }
 
   const editTask = (value: string) => {
-    const editedTasks = tasks.map((item) => {
-      if (item.id === selectedInput?.id) {
-        return {
-          ...item,
-          text: value,
-        };
-      } else {
-        return item;
-      }
-    });
-    setTasks(editedTasks);
-    setSelectedInput(null);
+    // const editedTasks = tasks.map((item) => {
+    //   if (item.id === selectedInput?.id) {
+    //     return {
+    //       ...item,
+    //       text: value,
+    //     };
+    //   } else {
+    //     return item;
+    //   }
+    // });
+    // setTasks(editedTasks);
+    // setSelectedInput(null);
   };
 
-  const changeChecked = (id: string, checked: boolean) => {
-    const editedTasks = tasks.map((item) => {
+  const changeChecked = (id: string, checked: boolean, todolistId: string) => {
+    const editedTasks = tasksObj[todolistId].map((item) => {
       if (item.id === id) {
         return {
           ...item,
@@ -82,8 +88,8 @@ function App() {
         return item;
       }
     });
-    console.log(editedTasks);
-    setTasks([...editedTasks]);
+    tasksObj[todolistId] = editedTasks;
+    setTasks({ ...tasksObj });
   };
 
   const handleCancel = () => {
@@ -93,22 +99,44 @@ function App() {
 
   return (
     <div className='App'>
-      <Todo
-        changeFilter={changeFilter}
-        deleteTack={deleteTack}
-        title='todo1'
-        dataForFilter={dataForFilter}
-        tasks={tasks}
-        filteredTasks={filteredTasks}
-        setInput={setInput}
-        getEditedTask={getEditedTask}
-        changeChecked={changeChecked}
-        addTask={addTask}
-        inputValue={inputValue}
-        selectedInput={selectedInput}
-        editTask={editTask}
-        handleCancel={handleCancel}
-      />
+      {todolists.map((todolist) => {
+        let filteredTasks = tasksObj[todolist.id];
+
+        switch (dataForFilter[Number(todolist.filter)]) {
+          case FilterData.ONLY_COMPLETED:
+            filteredTasks = tasksObj[todolist.id].filter((item) => {
+              return item.completed;
+            });
+            break;
+          case FilterData.ONLY_UNCOMPLETED:
+            filteredTasks = tasksObj[todolist.id].filter((item) => {
+              return !item.completed;
+            });
+            break;
+          default:
+            filteredTasks = tasksObj[todolist.id];
+        }
+
+        return (
+          <Todo
+            todolistId={todolist.id}
+            changeFilter={changeFilter}
+            deleteTack={deleteTack}
+            title={todolist.title}
+            dataForFilter={dataForFilter}
+            tasks={tasksObj[todolist.id]}
+            filteredTasks={filteredTasks}
+            setInput={setInput}
+            getEditedTask={getEditedTask}
+            changeChecked={changeChecked}
+            addTask={addTask}
+            inputValue={inputValue}
+            selectedInput={selectedInput}
+            editTask={editTask}
+            handleCancel={handleCancel}
+          />
+        );
+      })}
     </div>
   );
 }

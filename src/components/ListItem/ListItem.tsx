@@ -5,10 +5,11 @@ import cn from 'classnames';
 
 interface ListItemProps {
   listItem: IListItem;
-  deleteTack: (id: string) => void;
+  deleteTack: (id: string, todolistId: string) => void;
   getEditedTask: (data: IListItem) => void;
   setInput: (text: string) => void;
-  changeChecked: any;
+  changeChecked: (id: string, checked: boolean, todolistId: string) => void;
+  todolistId: string;
 }
 
 const ListItem: FC<ListItemProps> = ({
@@ -17,13 +18,13 @@ const ListItem: FC<ListItemProps> = ({
   getEditedTask,
   setInput,
   changeChecked,
+  todolistId,
 }) => {
-  const { text, completed, id } = listItem;
+  const { text, completed, id: taskId } = listItem;
   const [checked, setChecked] = useState(completed);
 
   const changeInput = () => {
-    changeChecked(id, checked);
-    console.log(id, checked);
+    changeChecked(taskId, checked, todolistId);
     setChecked((prev) => !prev);
   };
 
@@ -32,12 +33,16 @@ const ListItem: FC<ListItemProps> = ({
     setInput(text);
   };
 
+  const onRemoveHandler = () => {
+    deleteTack(taskId, todolistId);
+  };
+
   return (
     <li className={s.listItem}>
       <input type='checkbox' checked={checked} onChange={changeInput} />
       <p className={cn(s.listItemText, { [s.completed]: checked })}>{text}</p>
       <button className={cn(s.button, s.editButton)} onClick={editTask} />
-      <button className={cn(s.button, s.deleteButton)} onClick={() => deleteTack(id)} />
+      <button className={cn(s.button, s.deleteButton)} onClick={onRemoveHandler} />
     </li>
   );
 };

@@ -5,10 +5,11 @@ import { IListItem } from './../../types';
 
 interface ListProps {
   filteredTasks: IListItem[];
-  deleteTack: (id: string) => void;
+  deleteTack: (id: string, todolistId: string) => void;
   getEditedTask: (data: IListItem) => void;
   setInput: (text: string) => void;
-  changeChecked: any;
+  changeChecked: (id: string, checked: boolean, todolistId: string) => void;
+  todolistId: string;
 }
 
 const List: FC<ListProps> = ({
@@ -17,6 +18,7 @@ const List: FC<ListProps> = ({
   getEditedTask,
   setInput,
   changeChecked,
+  todolistId
 }) => {
   return (
     <ul className={s.list}>
@@ -29,6 +31,7 @@ const List: FC<ListProps> = ({
             key={item.id}
             getEditedTask={getEditedTask}
             deleteTack={deleteTack}
+            todolistId={todolistId}
           />
         );
       })}

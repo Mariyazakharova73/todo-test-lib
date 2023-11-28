@@ -3,12 +3,13 @@ import s from './Filter.module.css';
 
 interface FilterProps {
   dataForFilter: string[];
-  changeFilter: (value: string) => void;
+  changeFilter: (value: string, todolistId: string) => void;
+  todolistId: string;
 }
 
-const Filter: FC<FilterProps> = ({ dataForFilter, changeFilter }) => {
+const Filter: FC<FilterProps> = ({ dataForFilter, changeFilter, todolistId }) => {
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    changeFilter(e.target.value);
+    changeFilter(e.target.value, todolistId);
   };
 
   return (
