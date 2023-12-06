@@ -3,65 +3,53 @@ import { IListItem } from '../../types';
 import Filter from '../Filter/Filter';
 import Form from '../Form/Form';
 import List from '../List/List';
-import s from './Todo.module.css';
+import s from './TodoList.module.css';
 
-export interface TodoProps {
+export interface TodoListProps {
   title: string;
   deleteTack: (id: string, todolistId: string) => void;
   addTask: (value: string, todolistId: string) => void;
   dataForFilter: string[];
   tasks: IListItem[];
   filteredTasks: IListItem[];
-  getEditedTask: (data: IListItem) => void;
-  setInput: (text: string) => void;
   changeChecked: (id: string, checked: boolean, todolistId: string) => void;
   changeFilter: (value: string, todolistId: string) => void;
-  inputValue: string;
-  selectedInput: IListItem | null;
-  editTask: (value: string) => void;
-  handleCancel: () => void;
   todolistId: string;
+  deleteTodoList: (todolistId: string) => void;
 }
 
-const Todo: FC<TodoProps> = ({
+const TodoList: FC<TodoListProps> = ({
   title,
   deleteTack,
   dataForFilter,
   filteredTasks,
-  setInput,
-  getEditedTask,
   changeChecked,
   addTask,
-  inputValue,
-  selectedInput,
-  handleCancel,
-  editTask,
   changeFilter,
   todolistId,
+  deleteTodoList,
 }) => {
+  const addNewTask = (title: string) => {
+    addTask(title, todolistId);
+  };
+
   return (
     <div className={s.todo}>
-      <h2 className={s.todoTitle}>{title}</h2>
+      <>
+        <h2 className={s.todoTitle}>
+          {title} <button onClick={() => deleteTodoList(todolistId)}>X</button>
+        </h2>
+      </>
       <Filter dataForFilter={dataForFilter} changeFilter={changeFilter} todolistId={todolistId} />
       <List
         filteredTasks={filteredTasks}
-        setInput={setInput}
         deleteTack={deleteTack}
-        getEditedTask={getEditedTask}
         changeChecked={changeChecked}
         todolistId={todolistId}
       />
-      <Form
-        todolistId={todolistId}
-        addTask={addTask}
-        setInput={setInput}
-        inputValue={inputValue}
-        selectedInput={selectedInput}
-        editTask={editTask}
-        handleCancel={handleCancel}
-      />
+      <Form addItem={addNewTask} />
     </div>
   );
 };
 
-export default Todo;
+export default TodoList;

@@ -9,3 +9,7 @@ export enum FilterData {
   ONLY_COMPLETED = 'Только выполенные',
   ONLY_UNCOMPLETED = 'Только не выполенные',
 }
+
+export interface TaskState {
+  [key: string]: IListItem[]
+}

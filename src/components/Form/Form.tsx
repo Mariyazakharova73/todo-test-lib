@@ -1,45 +1,30 @@
-import React, { ChangeEvent, FC } from 'react';
-import { IListItem } from '../../types';
+import React, { ChangeEvent, FC, useState } from 'react';
 import s from './Form.module.css';
 
 interface FormProps {
-  addTask: (value: string, todolistId: string) => void;
-  inputValue: string;
-  setInput: (text: string) => void;
-  selectedInput: IListItem | null;
-  editTask: (value: string) => void;
-  handleCancel: () => void;
-  todolistId: string
+  addItem: (value: string) => void;
 }
 
-const Form: FC<FormProps> = ({
-  addTask,
-  setInput,
-  inputValue,
-  selectedInput,
-  editTask,
-  handleCancel,
-  todolistId
-}) => {
+const Form: FC<FormProps> = ({ addItem }) => {
+  const [inputValue, setInputValue] = useState('');
+
   const changeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const onSubmit = () => {
-    if (!selectedInput) {
-      console.log(selectedInput);
-      addTask(inputValue, todolistId);
-    } else {
-      editTask(inputValue);
-    }
-
-    setInput('');
+    addItem(inputValue);
+    setInputValue('');
   };
 
   const onClickEnter = (e: KeyboardEvent) => {
     if (e.key === 'Enter') {
       onSubmit();
     }
+  };
+
+  const handleCancel = () => {
+    setInputValue('');
   };
 
   return (
@@ -50,14 +35,9 @@ const Form: FC<FormProps> = ({
         onChange={changeInput}
         onKeyPress={() => onClickEnter}
       />
-      <button className={s.button} onClick={onSubmit} disabled={inputValue === ''}>
+      <button className={s.button} onClick={onSubmit} disabled={inputValue.trim() === ''}>
         Сохранить
       </button>
-      {selectedInput && (
-        <button className={s.button} onClick={handleCancel}>
-          Отмена
-        </button>
-      )}
     </form>
   );
 };

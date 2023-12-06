@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import './App.css';
-import Todo from './components/Todo/Todo';
-import { FilterData, IListItem } from './types';
+import { FilterData, IListItem, TaskState } from './types';
 import { v1 } from 'uuid';
+import Form from './components/Form/Form';
+import TodoList from './components/Todo/TodoList';
 
 const dataForFilter = ['Все', 'Только выполенные', 'Только не выполенные'];
 
@@ -10,7 +11,7 @@ function App() {
   const todolistId1 = v1();
   const todolistId2 = v1();
 
-  const [tasksObj, setTasks] = useState({
+  const [tasksObj, setTasks] = useState<TaskState>({
     [todolistId1]: [
       { text: 'Задача1', completed: true, id: v1() },
       { text: 'Задача2', completed: false, id: v1() },
@@ -28,9 +29,6 @@ function App() {
     { id: todolistId2, title: 'Второй', filter: '0' },
   ]);
 
-  const [inputValue, setInputValue] = useState('');
-  const [selectedInput, setSelectedInput] = useState<IListItem | null>(null);
-
   const addTask = (value: string, todolistId: string) => {
     const newTask = { id: v1(), text: value, completed: false };
     const tasks = tasksObj[todolistId];
@@ -46,35 +44,12 @@ function App() {
     setTasks({ ...tasksObj });
   };
 
-  const getEditedTask = (data: IListItem) => {
-    setSelectedInput(data);
-  };
-
-  const setInput = (text: string) => {
-    setInputValue(text);
-  };
-
   const changeFilter = (value: string, todolistId: string) => {
     const todolist = todolists.find((item) => item.id === todolistId);
     if (todolist) {
       todolist.filter = value;
     }
     setTodolists([...todolists]);
-  };
-
-  const editTask = (value: string) => {
-    // const editedTasks = tasks.map((item) => {
-    //   if (item.id === selectedInput?.id) {
-    //     return {
-    //       ...item,
-    //       text: value,
-    //     };
-    //   } else {
-    //     return item;
-    //   }
-    // });
-    // setTasks(editedTasks);
-    // setSelectedInput(null);
   };
 
   const changeChecked = (id: string, checked: boolean, todolistId: string) => {
@@ -92,13 +67,42 @@ function App() {
     setTasks({ ...tasksObj });
   };
 
-  const handleCancel = () => {
-    setSelectedInput(null);
-    setInputValue('');
+  const addTodoList = (title: string) => {
+    const todolist = {
+      id: v1(),
+      filter: '0',
+      title,
+    };
+    setTodolists([todolist, ...todolists]);
+    setTasks({ ...tasksObj, [todolist.id]: [] });
+  };
+
+  const deleteTodoList = (todolistId: string) => {
+    const newTodolists = todolists.filter((t) => t.id !== todolistId);
+    setTodolists(newTodolists);
+  };
+
+  const editTask = (value: string) => {
+    // const editedTasks = tasks.map((item) => {
+    //   if (item.id === selectedInput?.id) {
+    //     return {
+    //       ...item,
+    //       text: value,
+    //     };
+    //   } else {
+    //     return item;
+    //   }
+    // });
+    // setTasks(editedTasks);
+    // setSelectedInput(null);
   };
 
   return (
     <div className='App'>
+      <div>
+        <Form addItem={addTodoList}/>
+      </div>
+
       {todolists.map((todolist) => {
         let filteredTasks = tasksObj[todolist.id];
 
@@ -118,7 +122,9 @@ function App() {
         }
 
         return (
-          <Todo
+          <TodoList
+            deleteTodoList={deleteTodoList}
+            key={todolist.id}
             todolistId={todolist.id}
             changeFilter={changeFilter}
             deleteTack={deleteTack}
@@ -126,14 +132,8 @@ function App() {
             dataForFilter={dataForFilter}
             tasks={tasksObj[todolist.id]}
             filteredTasks={filteredTasks}
-            setInput={setInput}
-            getEditedTask={getEditedTask}
             changeChecked={changeChecked}
             addTask={addTask}
-            inputValue={inputValue}
-            selectedInput={selectedInput}
-            editTask={editTask}
-            handleCancel={handleCancel}
           />
         );
       })}
