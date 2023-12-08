@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { IListItem } from '../../types';
+import { EditableSpan } from '../EditableSpan/EditableSpan';
 import Filter from '../Filter/Filter';
 import Form from '../Form/Form';
 import List from '../List/List';
@@ -17,6 +18,7 @@ export interface TodoListProps {
   todolistId: string;
   deleteTodoList: (todolistId: string) => void;
   editTask: (id: string, todolistId: string, title: string) => void;
+  editTodoListTitle: (todolistId: string, title: string) => void;
 }
 
 const TodoList: FC<TodoListProps> = ({
@@ -29,17 +31,25 @@ const TodoList: FC<TodoListProps> = ({
   changeFilter,
   todolistId,
   deleteTodoList,
-  editTask
+  editTask,
+  editTodoListTitle,
 }) => {
   const addNewTask = (title: string) => {
     addTask(title, todolistId);
+  };
+
+  const changeTodoListTitle = (title: string) => {
+    editTodoListTitle(todolistId, title);
   };
 
   return (
     <div className={s.todo}>
       <>
         <h2 className={s.todoTitle}>
-          {title} <button onClick={() => deleteTodoList(todolistId)}>X</button>
+          <EditableSpan text={title} editItem={changeTodoListTitle}>
+            {title}
+          </EditableSpan>
+          <button onClick={() => deleteTodoList(todolistId)}>X</button>
         </h2>
       </>
       <Filter dataForFilter={dataForFilter} changeFilter={changeFilter} todolistId={todolistId} />

@@ -82,6 +82,25 @@ function App() {
     setTodolists(newTodolists);
   };
 
+  const editTodoListTitle = (todolistId: string, text: string) => {
+    // const newTodolists = todolists.map((item) => {
+    //   if (item.id === todolistId) {
+    //     console.log({ ...item, title: text })
+    //     return { ...item, title: text };
+    //   }
+    //   return item;
+    // });
+    // setTodolists(newTodolists);
+    const todoList = todolists.find((item) => {
+      return item.id === todolistId;
+    });
+
+    if (todoList) {
+      todoList.title = text;
+    }
+    setTodolists([...todolists]);
+  };
+
   const editTask = (taskId: string, todolistId: string, text: string) => {
     let tasks = tasksObj[todolistId];
     const editedTasks = tasks.map((item) => {
@@ -133,6 +152,7 @@ function App() {
             changeChecked={changeChecked}
             addTask={addTask}
             editTask={editTask}
+            editTodoListTitle={editTodoListTitle}
           />
         );
       })}
