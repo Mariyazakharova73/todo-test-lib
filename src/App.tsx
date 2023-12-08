@@ -82,25 +82,23 @@ function App() {
     setTodolists(newTodolists);
   };
 
-  const editTask = (value: string) => {
-    // const editedTasks = tasks.map((item) => {
-    //   if (item.id === selectedInput?.id) {
-    //     return {
-    //       ...item,
-    //       text: value,
-    //     };
-    //   } else {
-    //     return item;
-    //   }
-    // });
-    // setTasks(editedTasks);
-    // setSelectedInput(null);
+  const editTask = (taskId: string, todolistId: string, text: string) => {
+    let tasks = tasksObj[todolistId];
+    const editedTasks = tasks.map((item) => {
+      if (item.id === taskId) {
+        return { ...item, text };
+      }
+      return item;
+    });
+    tasksObj[todolistId] = editedTasks;
+    setTasks({ ...tasksObj });
+    console.log(tasksObj);
   };
 
   return (
     <div className='App'>
       <div>
-        <Form addItem={addTodoList}/>
+        <Form addItem={addTodoList} />
       </div>
 
       {todolists.map((todolist) => {
@@ -134,6 +132,7 @@ function App() {
             filteredTasks={filteredTasks}
             changeChecked={changeChecked}
             addTask={addTask}
+            editTask={editTask}
           />
         );
       })}

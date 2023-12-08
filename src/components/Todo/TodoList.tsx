@@ -16,6 +16,7 @@ export interface TodoListProps {
   changeFilter: (value: string, todolistId: string) => void;
   todolistId: string;
   deleteTodoList: (todolistId: string) => void;
+  editTask: (id: string, todolistId: string, title: string) => void;
 }
 
 const TodoList: FC<TodoListProps> = ({
@@ -28,6 +29,7 @@ const TodoList: FC<TodoListProps> = ({
   changeFilter,
   todolistId,
   deleteTodoList,
+  editTask
 }) => {
   const addNewTask = (title: string) => {
     addTask(title, todolistId);
@@ -46,6 +48,7 @@ const TodoList: FC<TodoListProps> = ({
         deleteTack={deleteTack}
         changeChecked={changeChecked}
         todolistId={todolistId}
+        editTask={editTask}
       />
       <Form addItem={addNewTask} />
     </div>

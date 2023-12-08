@@ -8,9 +8,16 @@ interface ListItemProps {
   deleteTack: (id: string, todolistId: string) => void;
   changeChecked: (id: string, checked: boolean, todolistId: string) => void;
   todolistId: string;
+  editTask: (id: string, todolistId: string, title: string) => void;
 }
 
-const ListItem: FC<ListItemProps> = ({ listItem, deleteTack, changeChecked, todolistId }) => {
+const ListItem: FC<ListItemProps> = ({
+  listItem,
+  deleteTack,
+  changeChecked,
+  todolistId,
+  editTask,
+}) => {
   const { text, completed, id: taskId } = listItem;
   const [checked, setChecked] = useState(completed);
 
@@ -23,12 +30,18 @@ const ListItem: FC<ListItemProps> = ({ listItem, deleteTack, changeChecked, todo
     deleteTack(taskId, todolistId);
   };
 
+  const editListItemTask = (title: string) => {
+    editTask(taskId, todolistId, title);
+  };
+
   return (
     <>
       <li className={s.listItem}>
         <input type='checkbox' checked={checked} onChange={changeInput} />
         <div className={cn(s.listItemText, { [s.completed]: checked })}>
-          <EditableSpan listItem={listItem}>{text}</EditableSpan>
+          <EditableSpan text={text} editItem={editListItemTask}>
+            {text}
+          </EditableSpan>
         </div>
         <button className={cn(s.button, s.deleteButton)} onClick={onRemoveHandler} />
       </li>
@@ -39,27 +52,30 @@ const ListItem: FC<ListItemProps> = ({ listItem, deleteTack, changeChecked, todo
 export default ListItem;
 
 export interface EditableSpanProps {
-  listItem: IListItem;
+  text: string;
   children: any;
+  editItem: (title: string) => void;
 }
 
-export const EditableSpan: FC<EditableSpanProps> = ({ listItem, children }) => {
-  const [editTitleValue, setEditTitleValue] = useState(listItem.text);
-  const [editable, setEditable] = useState(false);
+export const EditableSpan: FC<EditableSpanProps> = ({ text, children, editItem }) => {
+  const [editedTitleValue, setEditedTitleValue] = useState(text);
+  const [editMode, setEditMode] = useState(false);
 
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setEditTitleValue(e.target.value);
+    setEditedTitleValue(e.target.value);
   };
 
-  const handleTitleEdit = () => {
-    setEditable(true);
+  const activateEditMode = () => {
+    setEditMode(true);
   };
-  const handleBlur = () => {
-    setEditable(false);
+  const activateViewMode = () => {
+    setEditMode(false);
+    editItem(editedTitleValue);
   };
 
-  if (editable) {
-    return <input value={editTitleValue} onChange={handleTitleChange} onBlur={handleBlur} />;
-  }
-  return <span onDoubleClick={handleTitleEdit}>{listItem.text}</span>;
+  return editMode ? (
+    <input value={editedTitleValue} onChange={handleTitleChange} onBlur={activateViewMode} />
+  ) : (
+    <span onDoubleClick={activateEditMode}>{text}</span>
+  );
 };

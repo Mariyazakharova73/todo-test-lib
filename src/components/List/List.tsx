@@ -8,6 +8,7 @@ interface ListProps {
   deleteTack: (id: string, todolistId: string) => void;
   changeChecked: (id: string, checked: boolean, todolistId: string) => void;
   todolistId: string;
+  editTask: (id: string, todolistId: string, title: string) => void;
 }
 
 const List: FC<ListProps> = ({
@@ -15,6 +16,7 @@ const List: FC<ListProps> = ({
   deleteTack,
   changeChecked,
   todolistId,
+  editTask
 }) => {
   return (
     <ul className={s.list}>
@@ -26,6 +28,7 @@ const List: FC<ListProps> = ({
             key={item.id}
             deleteTack={deleteTack}
             todolistId={todolistId}
+            editTask={editTask}
           />
         );
       })}
