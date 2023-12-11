@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { FilterData, IListItem } from './types';
+import { FilterData, IListItem, Todos } from './types';
 import Form from './components/Form/Form';
 import TodoList from './components/Todo/TodoList';
 import { dataForFilter } from './utils/constants';
@@ -24,7 +24,7 @@ function App() {
         <Form addItem={addNewTodolist} />
       </div>
 
-      {todolists?.map((todolist) => {
+      {todolists?.map((todolist: Todos) => {
         let filteredTasks = tasks[todolist.id];
 
         switch (dataForFilter[Number(todolist.filter)]) {

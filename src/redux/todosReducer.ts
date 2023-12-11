@@ -15,7 +15,7 @@ const initialState: TodosState = {
   ],
 };
 
-export const todosReducer = (state = initialState, action: TodoListsAction) => {
+export const todosReducer = (state = initialState, action: TodoListsAction): TodosState => {
   switch (action.type) {
     case todolistsActionTypes.ADD_TODOLIST:
       const todolist = {

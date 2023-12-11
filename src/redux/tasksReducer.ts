@@ -23,7 +23,7 @@ const initialState: TasksState = {
   },
 };
 
-export const tasksReducer = (state = initialState, action: TasksAction) => {
+export const tasksReducer = (state = initialState, action: TasksAction): TasksState => {
   switch (action.type) {
     case tasksActionTypes.ADD_TASK:
       const newTask = { id: v1(), text: action.text, completed: false };
