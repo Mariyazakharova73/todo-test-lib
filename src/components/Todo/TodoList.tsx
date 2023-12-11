@@ -11,30 +11,22 @@ import s from './TodoList.module.css';
 
 export interface TodoListProps {
   title: string;
-  deleteTack: (id: string, todolistId: string) => void;
   dataForFilter: string[];
   tasks: IListItem[] | {};
   filteredTasks: IListItem[] | [];
-  changeChecked: (id: string, checked: boolean, todolistId: string) => void;
-  changeFilter: (value: string, todolistId: string) => void;
   todolistId: string;
-  editTask: (id: string, todolistId: string, title: string) => void;
 }
 
 const TodoList: FC<TodoListProps> = ({
   title,
-  deleteTack,
   dataForFilter,
   filteredTasks,
-  changeChecked,
-  changeFilter,
   todolistId,
-  editTask,
 }) => {
   const dispatch = useAppDispatch();
 
   const addNewTask = (title: string) => {
-    dispatch(addTask(todolistId, title));
+    dispatch((addTask(todolistId, title)));
   };
 
   const changeTodoListTitle = (title: string) => {
@@ -55,13 +47,10 @@ const TodoList: FC<TodoListProps> = ({
           <button onClick={deleteTodoList}>X</button>
         </h2>
       </>
-      <Filter dataForFilter={dataForFilter} changeFilter={changeFilter} todolistId={todolistId} />
+      <Filter dataForFilter={dataForFilter} todolistId={todolistId} />
       <List
         filteredTasks={filteredTasks}
-        deleteTack={deleteTack}
-        changeChecked={changeChecked}
         todolistId={todolistId}
-        editTask={editTask}
       />
       <Form addItem={addNewTask} />
     </div>

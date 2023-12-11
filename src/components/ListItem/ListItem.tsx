@@ -3,36 +3,30 @@ import { IListItem } from '../../types';
 import s from './ListItem.module.css';
 import cn from 'classnames';
 import { EditableSpan } from '../EditableSpan/EditableSpan';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { changeChecked, deleteTask, editTask } from '../../redux/tasksReducer';
 
 interface ListItemProps {
   listItem: IListItem;
-  deleteTack: (id: string, todolistId: string) => void;
-  changeChecked: (id: string, checked: boolean, todolistId: string) => void;
   todolistId: string;
-  editTask: (id: string, todolistId: string, title: string) => void;
 }
 
-const ListItem: FC<ListItemProps> = ({
-  listItem,
-  deleteTack,
-  changeChecked,
-  todolistId,
-  editTask,
-}) => {
+const ListItem: FC<ListItemProps> = ({ listItem, todolistId }) => {
+  const dispatch = useAppDispatch();
   const { text, completed, id: taskId } = listItem;
   const [checked, setChecked] = useState(completed);
 
   const changeInput = () => {
-    changeChecked(taskId, checked, todolistId);
+    dispatch(changeChecked(todolistId, taskId, checked))
     setChecked((prev) => !prev);
   };
 
   const onRemoveHandler = () => {
-    deleteTack(taskId, todolistId);
+    dispatch(deleteTask(todolistId, taskId));
   };
 
   const editListItemTask = (title: string) => {
-    editTask(taskId, todolistId, title);
+   dispatch(editTask(todolistId, taskId, title));
   };
 
   return (

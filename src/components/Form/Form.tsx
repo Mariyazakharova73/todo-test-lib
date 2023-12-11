@@ -1,13 +1,11 @@
 import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
 import s from './Form.module.css';
 
 export interface FormProps {
-  addItem: (value: string) => any;
+  addItem: (value: string) => void;
 }
 
 const Form: FC<FormProps> = ({ addItem }) => {
-  const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState('');
 
   const changeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -15,8 +13,8 @@ const Form: FC<FormProps> = ({ addItem }) => {
   };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    dispatch(addItem(inputValue));
+    e.preventDefault();
+    addItem(inputValue);
     setInputValue('');
   };
 

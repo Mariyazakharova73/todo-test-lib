@@ -2,6 +2,7 @@ export enum todolistsActionTypes {
   ADD_TODOLIST = 'ADD_TODOLIST',
   REMOVE_TODOLIST = 'REMOVE_TODOLIST',
   EDIT_TODOLIST_TLTLE = 'EDIT_TODOLIST_TLTLE',
+  CHANGE_FILTER = 'CHANGE_FILTER',
 }
 
 export interface addItemAction {
@@ -20,21 +21,49 @@ export interface editTodoListTitleAction {
   title: string;
 }
 
-export type TodoListsAction = addItemAction | removeItemAction | editTodoListTitleAction;
+export interface changeFilterAction {
+  type: todolistsActionTypes.CHANGE_FILTER;
+  todolistId: string;
+  value: string;
+}
 
+export type TodoListsAction =
+  | addItemAction
+  | removeItemAction
+  | editTodoListTitleAction
+  | changeFilterAction;
 
 export enum tasksActionTypes {
   ADD_TASK = 'ADD_TASK',
   REMOVE_TASK = 'REMOVE_TASK',
   EDIT_TASK = 'EDIT_TASK',
-  CHANGE_FILTER = 'CHANGE_FILTER',
   CHANGE_CHECKED = 'CHANGE_CHECKED',
 }
 
 export interface addTaskAction {
-  type: tasksActionTypes.ADD_TASK,
-  todolistId: string,
-  text: string,
+  type: tasksActionTypes.ADD_TASK;
+  todolistId: string;
+  text: string;
 }
 
-export type TasksAction = addTaskAction;
+export interface deleteTaskAction {
+  type: tasksActionTypes.REMOVE_TASK;
+  todolistId: string;
+  taskId: string;
+}
+
+export interface changeCheckedAction {
+  type: tasksActionTypes.CHANGE_CHECKED;
+  todolistId: string;
+  taskId: string;
+  checked: boolean;
+}
+
+export interface editTaskAction {
+  type: tasksActionTypes.EDIT_TASK;
+  todolistId: string;
+  taskId: string;
+  text: string;
+}
+
+export type TasksAction = addTaskAction | deleteTaskAction | changeCheckedAction | editTaskAction;

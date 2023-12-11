@@ -39,6 +39,12 @@ export const todosReducer = (state = initialState, action: TodoListsAction) => {
           return item;
         }),
       };
+    case todolistsActionTypes.CHANGE_FILTER:
+      const todo = state.todolists?.find((item) => item.id === action.todolistId);
+      if (todo) {
+        todo.filter = action.value;
+      }
+      return { ...state, todolists: [...state.todolists] };
     default:
       return state;
   }
@@ -65,5 +71,13 @@ export function editTodolistTitle(todolistId: string, title: string) {
     type: todolistsActionTypes.EDIT_TODOLIST_TLTLE,
     todolistId,
     title,
+  };
+}
+
+export function changeFilter(todolistId: string, value: string) {
+  return {
+    type: todolistsActionTypes.CHANGE_FILTER,
+    todolistId,
+    value,
   };
 }

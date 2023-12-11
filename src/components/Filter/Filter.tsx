@@ -1,15 +1,18 @@
 import React, { ChangeEvent, FC } from 'react';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { changeFilter } from '../../redux/todosReducer';
 import s from './Filter.module.css';
 
 interface FilterProps {
   dataForFilter: string[];
-  changeFilter: (value: string, todolistId: string) => void;
   todolistId: string;
 }
 
-const Filter: FC<FilterProps> = ({ dataForFilter, changeFilter, todolistId }) => {
+const Filter: FC<FilterProps> = ({ dataForFilter, todolistId }) => {
+  const dispatch = useAppDispatch();
+
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    changeFilter(e.target.value, todolistId);
+    dispatch(changeFilter(todolistId, e.target.value));
   };
 
   return (
