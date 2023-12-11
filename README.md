@@ -13,10 +13,10 @@ Todo с использованием разных стейт менеджеро�
   <p>Ветка zustand</p>
   <img height='25px' src="https://img.shields.io/badge/Zustand-20232A??style=plastic&logoColor=764ABC" alt="Zustand.">
   <div>
-  <!-- <div>
-  <p>Ветка redux-toolkit</p>
-  <img height='25px' src="https://img.shields.io/badge/Redux Toolkit-20232A??style=plastic&logo=redux&logoColor=764ABC" alt="Redux Toolkit">
-  <div> -->
+  <div>
+  <p>Ветка redux</p>
+  <img height='25px' src="https://img.shields.io/badge/Redux-20232A??style=plastic&logo=redux&logoColor=764ABC" alt="Redux Toolkit">
+  <div>
   <!-- <img height='25px' src="https://img.shields.io/badge/Axios-20232A??style=for-the-badge&logo=Axios&logoColor=5A29E4" alt="Axios"> -->
 </div>
 
