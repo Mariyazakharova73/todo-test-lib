@@ -1,26 +1,23 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
 import s from './Form.module.css';
 
-interface FormProps {
-  addItem: (value: string) => void;
+export interface FormProps {
+  addItem: (value: string) => any;
 }
 
 const Form: FC<FormProps> = ({ addItem }) => {
+  const dispatch = useAppDispatch();
   const [inputValue, setInputValue] = useState('');
 
   const changeInput = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
-  const onSubmit = () => {
-    addItem(inputValue);
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    dispatch(addItem(inputValue));
     setInputValue('');
-  };
-
-  const onClickEnter = (e: KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      onSubmit();
-    }
   };
 
   const handleCancel = () => {
@@ -28,14 +25,14 @@ const Form: FC<FormProps> = ({ addItem }) => {
   };
 
   return (
-    <form className={s.form}>
+    <form className={s.form} onSubmit={onSubmit}>
       <input
         className={s.input}
         value={inputValue}
         onChange={changeInput}
-        onKeyPress={() => onClickEnter}
+        // onKeyPress={() => onClickEnter}
       />
-      <button className={s.button} onClick={onSubmit} disabled={inputValue.trim() === ''}>
+      <button type='submit' className={s.button} disabled={inputValue.trim() === ''}>
         Сохранить
       </button>
     </form>

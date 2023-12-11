@@ -4,7 +4,7 @@ import s from './List.module.css';
 import { IListItem } from './../../types';
 
 interface ListProps {
-  filteredTasks: IListItem[];
+  filteredTasks: IListItem[] | [] ;
   deleteTack: (id: string, todolistId: string) => void;
   changeChecked: (id: string, checked: boolean, todolistId: string) => void;
   todolistId: string;
@@ -20,7 +20,7 @@ const List: FC<ListProps> = ({
 }) => {
   return (
     <ul className={s.list}>
-      {filteredTasks.map((item: IListItem) => {
+      {filteredTasks?.map((item: IListItem) => {
         return (
           <ListItem
             changeChecked={changeChecked}

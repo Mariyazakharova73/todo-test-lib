@@ -1,4 +1,7 @@
 import React, { FC } from 'react';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { addTask } from '../../redux/tasksReducer';
+import { editTodolistTitle, removeTodolist } from '../../redux/todosReducer';
 import { IListItem } from '../../types';
 import { EditableSpan } from '../EditableSpan/EditableSpan';
 import Filter from '../Filter/Filter';
@@ -9,16 +12,13 @@ import s from './TodoList.module.css';
 export interface TodoListProps {
   title: string;
   deleteTack: (id: string, todolistId: string) => void;
-  addTask: (value: string, todolistId: string) => void;
   dataForFilter: string[];
-  tasks: IListItem[];
-  filteredTasks: IListItem[];
+  tasks: IListItem[] | {};
+  filteredTasks: IListItem[] | [];
   changeChecked: (id: string, checked: boolean, todolistId: string) => void;
   changeFilter: (value: string, todolistId: string) => void;
   todolistId: string;
-  deleteTodoList: (todolistId: string) => void;
   editTask: (id: string, todolistId: string, title: string) => void;
-  editTodoListTitle: (todolistId: string, title: string) => void;
 }
 
 const TodoList: FC<TodoListProps> = ({
@@ -27,19 +27,22 @@ const TodoList: FC<TodoListProps> = ({
   dataForFilter,
   filteredTasks,
   changeChecked,
-  addTask,
   changeFilter,
   todolistId,
-  deleteTodoList,
   editTask,
-  editTodoListTitle,
 }) => {
+  const dispatch = useAppDispatch();
+
   const addNewTask = (title: string) => {
-    addTask(title, todolistId);
+    dispatch(addTask(todolistId, title));
   };
 
   const changeTodoListTitle = (title: string) => {
-    editTodoListTitle(todolistId, title);
+    dispatch(editTodolistTitle(todolistId, title));
+  };
+
+  const deleteTodoList = () => {
+    dispatch(removeTodolist(todolistId));
   };
 
   return (
@@ -49,7 +52,7 @@ const TodoList: FC<TodoListProps> = ({
           <EditableSpan text={title} editItem={changeTodoListTitle}>
             {title}
           </EditableSpan>
-          <button onClick={() => deleteTodoList(todolistId)}>X</button>
+          <button onClick={deleteTodoList}>X</button>
         </h2>
       </>
       <Filter dataForFilter={dataForFilter} changeFilter={changeFilter} todolistId={todolistId} />
