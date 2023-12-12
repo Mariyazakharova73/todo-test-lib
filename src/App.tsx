@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { FilterData, IListItem, Todos } from './types';
 import Form from './components/Form/Form';
 import TodoList from './components/Todo/TodoList';
-import { dataForFilter } from './utils/constants';
+import { dataForFilter } from './utils/utils';
 import { useTypedSelector } from './hooks/useTypedSelector';
-import { selectTodolists, addTodolist } from './redux/todosReducer';
-import { selectTasks } from './redux/tasksReducer';
+import { selectTodolists, addTodolist, getDataThunk } from './redux/todosReducer';
+import { addEmptyTasks, selectTasks } from './redux/tasksReducer';
 import { useAppDispatch } from './hooks/useAppDispatch';
+import { v1 } from 'uuid';
+import { fetchUsersAC } from './redux/saga/testSaga';
 
 function App() {
   const todolists = useTypedSelector(selectTodolists);
   const tasks = useTypedSelector(selectTasks);
   const dispatch = useAppDispatch();
+  
+  useEffect(() => {
+    //dispatch(getDataThunk());
+    dispatch(fetchUsersAC());
+  }, []);
 
   const addNewTodolist = (title: string) => {
-    dispatch(addTodolist(title));
+    const todolistId = v1();
+    dispatch(addTodolist(todolistId, title));
+    dispatch(addEmptyTasks(todolistId));
   };
 
   return (

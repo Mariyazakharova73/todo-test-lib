@@ -17,16 +17,11 @@ export interface TodoListProps {
   todolistId: string;
 }
 
-const TodoList: FC<TodoListProps> = ({
-  title,
-  dataForFilter,
-  filteredTasks,
-  todolistId,
-}) => {
+const TodoList: FC<TodoListProps> = ({ title, dataForFilter, filteredTasks, todolistId }) => {
   const dispatch = useAppDispatch();
 
   const addNewTask = (title: string) => {
-    dispatch((addTask(todolistId, title)));
+    dispatch(addTask(todolistId, title));
   };
 
   const changeTodoListTitle = (title: string) => {
@@ -48,10 +43,7 @@ const TodoList: FC<TodoListProps> = ({
         </h2>
       </>
       <Filter dataForFilter={dataForFilter} todolistId={todolistId} />
-      <List
-        filteredTasks={filteredTasks}
-        todolistId={todolistId}
-      />
+      <List filteredTasks={filteredTasks} todolistId={todolistId} />
       <Form addItem={addNewTask} />
     </div>
   );

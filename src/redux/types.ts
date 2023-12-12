@@ -7,7 +7,8 @@ export enum todolistsActionTypes {
 
 export interface addItemAction {
   type: todolistsActionTypes.ADD_TODOLIST;
-  payload: string;
+  todolistId: string;
+  title: string;
 }
 
 export interface removeItemAction {
@@ -38,6 +39,7 @@ export enum tasksActionTypes {
   REMOVE_TASK = 'REMOVE_TASK',
   EDIT_TASK = 'EDIT_TASK',
   CHANGE_CHECKED = 'CHANGE_CHECKED',
+  ADD_EMPTY_TASKS = 'ADD_EMPTY_TASKS',
 }
 
 export interface addTaskAction {
@@ -66,4 +68,15 @@ export interface editTaskAction {
   text: string;
 }
 
-export type TasksAction = addTaskAction | deleteTaskAction | changeCheckedAction | editTaskAction;
+export interface addNewTodolistAction {
+  type: tasksActionTypes.ADD_EMPTY_TASKS;
+  todolistId: string;
+}
+
+export type TasksAction =
+  | addTaskAction
+  | deleteTaskAction
+  | changeCheckedAction
+  | editTaskAction
+  | addNewTodolistAction;
+

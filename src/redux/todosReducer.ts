@@ -1,7 +1,8 @@
-import { v1 } from 'uuid';
+import { AnyAction } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import { RootState } from '.';
 import { Todos } from '../types';
-import { todolistId1, todolistId2 } from '../utils/constants';
+import { request, todolistId1, todolistId2 } from '../utils/utils';
 import { TodoListsAction, todolistsActionTypes } from './types';
 
 export interface TodosState {
@@ -19,9 +20,9 @@ export const todosReducer = (state = initialState, action: TodoListsAction): Tod
   switch (action.type) {
     case todolistsActionTypes.ADD_TODOLIST:
       const todolist = {
-        id: v1(),
+        id: action.todolistId,
         filter: '0',
-        title: action.payload,
+        title: action.title,
       };
       return { ...state, todolists: [...state.todolists, todolist] };
     case todolistsActionTypes.REMOVE_TODOLIST:
@@ -52,10 +53,11 @@ export const todosReducer = (state = initialState, action: TodoListsAction): Tod
 
 export const selectTodolists = (state: RootState) => state.todolists.todolists;
 
-export function addTodolist(title: string) {
+export function addTodolist(todolistId: string, title: string) {
   return {
     type: todolistsActionTypes.ADD_TODOLIST,
-    payload: title,
+    todolistId,
+    title,
   };
 }
 
@@ -81,3 +83,18 @@ export function changeFilter(todolistId: string, value: string) {
     value,
   };
 }
+
+export type ThunkActionType = ThunkAction<void, RootState, unknown, AnyAction>;
+
+export const getDataThunk = (): ThunkActionType => {
+  return (dispatch) => {
+    request('todos?_limit=10')
+      .then((res) => {
+        //dispatch(getData(res));
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
