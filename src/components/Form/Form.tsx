@@ -23,9 +23,6 @@ const Form: FC<FormProps> = ({ addItem }) => {
     }
   };
 
-  const handleCancel = () => {
-    setInputValue('');
-  };
 
   return (
     <form className={s.form}>

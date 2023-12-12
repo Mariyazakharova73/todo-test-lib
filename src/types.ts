@@ -10,6 +10,12 @@ export enum FilterData {
   ONLY_UNCOMPLETED = 'Только не выполенные',
 }
 
-export interface TaskState {
+export interface Tasks {
   [key: string]: IListItem[]
+}
+
+export interface TodoList {
+  id: string;
+  title: string;
+  filter: string;
 }
