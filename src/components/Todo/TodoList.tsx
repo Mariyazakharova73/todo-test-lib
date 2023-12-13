@@ -5,41 +5,26 @@ import Filter from '../Filter/Filter';
 import Form from '../Form/Form';
 import List from '../List/List';
 import s from './TodoList.module.css';
+import todo from '../../store/todolists';
+import taskStore from '../../store/tasks'
 
 export interface TodoListProps {
   title: string;
-  deleteTack: (id: string, todolistId: string) => void;
-  addTask: (value: string, todolistId: string) => void;
-  dataForFilter: string[];
-  tasks: IListItem[];
   filteredTasks: IListItem[];
-  changeChecked: (id: string, checked: boolean, todolistId: string) => void;
-  changeFilter: (value: string, todolistId: string) => void;
   todolistId: string;
-  deleteTodoList: (todolistId: string) => void;
-  editTask: (id: string, todolistId: string, title: string) => void;
-  editTodoListTitle: (todolistId: string, title: string) => void;
 }
 
-const TodoList: FC<TodoListProps> = ({
-  title,
-  deleteTack,
-  dataForFilter,
-  filteredTasks,
-  changeChecked,
-  addTask,
-  changeFilter,
-  todolistId,
-  deleteTodoList,
-  editTask,
-  editTodoListTitle,
-}) => {
+const TodoList: FC<TodoListProps> = ({ title, filteredTasks, todolistId }) => {
   const addNewTask = (title: string) => {
-    addTask(title, todolistId);
+    taskStore.cteateTask(todolistId, title)
   };
 
   const changeTodoListTitle = (title: string) => {
-    editTodoListTitle(todolistId, title);
+    todo.updateTodolist(todolistId, title);
+  };
+
+  const removeTodolist = () => {
+    todo.removeTodolist(todolistId);
   };
 
   return (
@@ -49,17 +34,11 @@ const TodoList: FC<TodoListProps> = ({
           <EditableSpan text={title} editItem={changeTodoListTitle}>
             {title}
           </EditableSpan>
-          <button onClick={() => deleteTodoList(todolistId)}>X</button>
+          <button onClick={removeTodolist}>X</button>
         </h2>
       </>
-      <Filter dataForFilter={dataForFilter} changeFilter={changeFilter} todolistId={todolistId} />
-      <List
-        filteredTasks={filteredTasks}
-        deleteTack={deleteTack}
-        changeChecked={changeChecked}
-        todolistId={todolistId}
-        editTask={editTask}
-      />
+      <Filter todolistId={todolistId} />
+      <List filteredTasks={filteredTasks} todolistId={todolistId} />
       <Form addItem={addNewTask} />
     </div>
   );
