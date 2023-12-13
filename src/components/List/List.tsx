@@ -14,7 +14,7 @@ const List: FC<ListProps> = ({
 }) => {
   return (
     <ul className={s.list}>
-      {filteredTasks.map((item: IListItem) => {
+      {filteredTasks?.map((item: IListItem) => {
         return (
           <ListItem
             listItem={item}

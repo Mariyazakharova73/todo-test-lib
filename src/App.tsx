@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import Form from './components/Form/Form';
@@ -9,9 +9,10 @@ import { FilterData } from './types';
 import { dataForFilter } from './utils/utils';
 
 function App() {
-  const [todolists, createTodolist] = useTodolistStore((state) => [
+  const [todolists, createTodolist, fetch] = useTodolistStore((state) => [
     state.todolists,
     state.cteateTodoList,
+    state.fetch
   ]);
   const [tasks, addEmptyTask] = useTasksStore((state) => [state.tasks, state.addEmptyTask]);
 
@@ -20,6 +21,10 @@ function App() {
     createTodolist(todolistId, title);
     addEmptyTask(todolistId);
   };
+
+  useEffect(() => {
+    fetch()
+  }, [])
 
   return (
     <div className='App'>
