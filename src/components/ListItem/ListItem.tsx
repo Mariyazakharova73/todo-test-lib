@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { IListItem } from '../../types';
 import s from './ListItem.module.css';
 import cn from 'classnames';
@@ -13,10 +13,14 @@ interface ListItemProps {
 const ListItem: FC<ListItemProps> = ({ listItem, todolistId }) => {
   const { text, completed, id: taskId } = listItem;
   const [checked, setChecked] = useState(completed);
-  const [removeTask] = useTasksStore((state) => [state.removeTask]);
+  const [removeTask, changeChecked, editTask] = useTasksStore((state) => [
+    state.removeTask,
+    state.changeChecked,
+    state.editTask,
+  ]);
 
   const changeInput = () => {
-    // changeChecked(taskId, checked, todolistId);
+    changeChecked(todolistId, taskId, checked);
     setChecked((prev) => !prev);
   };
 
@@ -25,7 +29,7 @@ const ListItem: FC<ListItemProps> = ({ listItem, todolistId }) => {
   };
 
   const editListItemTask = (title: string) => {
-    //updateTodolist(todolistId, title);
+    editTask(todolistId, taskId, title);
   };
 
   return (
@@ -44,9 +48,3 @@ const ListItem: FC<ListItemProps> = ({ listItem, todolistId }) => {
 };
 
 export default ListItem;
-
-export interface EditableSpanProps {
-  text: string;
-  children: any;
-  editItem: (title: string) => void;
-}

@@ -9,14 +9,16 @@ import { FilterData } from './types';
 import { dataForFilter } from './utils/utils';
 
 function App() {
-  const todolists = useTodolistStore((state) => state.todolists);
-  const tasks = useTasksStore((state) => state.tasks);
-  const [createTodolist] = useTodolistStore((state) => [state.cteateTodoList]);
+  const [todolists, createTodolist] = useTodolistStore((state) => [
+    state.todolists,
+    state.cteateTodoList,
+  ]);
+  const [tasks, addEmptyTask] = useTasksStore((state) => [state.tasks, state.addEmptyTask]);
 
   const addNewTodolist = (title: string) => {
     const todolistId = v1();
     createTodolist(todolistId, title);
-    // dispatch(addEmptyTasks(todolistId));
+    addEmptyTask(todolistId);
   };
 
   return (
@@ -49,7 +51,6 @@ function App() {
             todolistId={todolist.id}
             title={todolist.title}
             filteredTasks={filteredTasks}
-
           />
         );
       })}
