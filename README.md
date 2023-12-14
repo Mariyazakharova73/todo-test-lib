@@ -2,7 +2,9 @@
 
 #### О проекте
 
-Todolist с использованием разных стейт менеджеров в разных ветках
+Todolist с использованием разных стейт менеджеров в разных ветках.
+Можно добавлять новый todolist, редактировать его название, удалять.
+Также можно добавять новые задачи, фильтровть, изменять текстт и статус, удалять задачи
 
 #### Технологии
 
@@ -15,6 +17,8 @@ Todolist с использованием разных стейт менедже�
   <img height='25px' src="https://img.shields.io/badge/Zustand-20232A??style=plastic&logoColor=764ABC" alt="Zustand.">
   <p>Ветка mobx</p>
   <img height='25px' src="https://img.shields.io/badge/MobX-20232A??style=plastic&logo=Mobx&logoColor=FF9955" alt="Mobx">
+  <p>Ветка effector</p>
+  <img height='25px' src="https://img.shields.io/badge/Effector-20232A??style=plastic&logo=Effector&logoColor=FF9955" alt="Effector">
 
   <!-- <img height='25px' src="https://img.shields.io/badge/Axios-20232A??style=for-the-badge&logo=Axios&logoColor=5A29E4" alt="Axios"> -->
 </div>
