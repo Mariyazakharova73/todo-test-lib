@@ -1,15 +1,15 @@
 import React, { ChangeEvent, FC } from 'react';
+import { changeFilter } from '../../store/todolistsStore';
+import { dataForFilter } from '../../utils/utils';
 import s from './Filter.module.css';
 
 interface FilterProps {
-  dataForFilter: string[];
-  changeFilter: (value: string, todolistId: string) => void;
   todolistId: string;
 }
 
-const Filter: FC<FilterProps> = ({ dataForFilter, changeFilter, todolistId }) => {
+const Filter: FC<FilterProps> = ({ todolistId }) => {
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    changeFilter(e.target.value, todolistId);
+    changeFilter({ todolistId, filter: e.target.value });
   };
 
   return (

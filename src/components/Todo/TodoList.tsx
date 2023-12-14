@@ -1,4 +1,6 @@
 import React, { FC } from 'react';
+import { cteateTask } from '../../store/tasksStore';
+import { removeTodolist, updateTodolist } from '../../store/todolistsStore';
 import { IListItem } from '../../types';
 import { EditableSpan } from '../EditableSpan/EditableSpan';
 import Filter from '../Filter/Filter';
@@ -8,38 +10,21 @@ import s from './TodoList.module.css';
 
 export interface TodoListProps {
   title: string;
-  deleteTack: (id: string, todolistId: string) => void;
-  addTask: (value: string, todolistId: string) => void;
-  dataForFilter: string[];
-  tasks: IListItem[];
   filteredTasks: IListItem[];
-  changeChecked: (id: string, checked: boolean, todolistId: string) => void;
-  changeFilter: (value: string, todolistId: string) => void;
   todolistId: string;
-  deleteTodoList: (todolistId: string) => void;
-  editTask: (id: string, todolistId: string, title: string) => void;
-  editTodoListTitle: (todolistId: string, title: string) => void;
 }
 
-const TodoList: FC<TodoListProps> = ({
-  title,
-  deleteTack,
-  dataForFilter,
-  filteredTasks,
-  changeChecked,
-  addTask,
-  changeFilter,
-  todolistId,
-  deleteTodoList,
-  editTask,
-  editTodoListTitle,
-}) => {
-  const addNewTask = (title: string) => {
-    addTask(title, todolistId);
+const TodoList: FC<TodoListProps> = ({ title, filteredTasks, todolistId }) => {
+  const addNewTask = (text: string) => {
+    cteateTask({ todolistId, text });
   };
 
   const changeTodoListTitle = (title: string) => {
-    editTodoListTitle(todolistId, title);
+    updateTodolist({ todolistId, title });
+  };
+
+  const deleteTodoList = () => {
+    removeTodolist(todolistId);
   };
 
   return (
@@ -49,17 +34,11 @@ const TodoList: FC<TodoListProps> = ({
           <EditableSpan text={title} editItem={changeTodoListTitle}>
             {title}
           </EditableSpan>
-          <button onClick={() => deleteTodoList(todolistId)}>X</button>
+          <button onClick={deleteTodoList}>X</button>
         </h2>
       </>
-      <Filter dataForFilter={dataForFilter} changeFilter={changeFilter} todolistId={todolistId} />
-      <List
-        filteredTasks={filteredTasks}
-        deleteTack={deleteTack}
-        changeChecked={changeChecked}
-        todolistId={todolistId}
-        editTask={editTask}
-      />
+      <Filter todolistId={todolistId} />
+      <List filteredTasks={filteredTasks} todolistId={todolistId} />
       <Form addItem={addNewTask} />
     </div>
   );

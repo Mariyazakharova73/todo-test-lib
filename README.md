@@ -2,21 +2,24 @@
 
 #### О проекте
 
-Todo с использованием разных стейт менеджеров в разных ветках
+Todolist с использованием разных стейт менеджеров в разных ветках.
+Можно добавлять новый todolist, редактировать его название, удалять.
+Также можно добавять новые задачи, фильтровть, изменять текстт и статус, удалять задачи
 
 #### Технологии
 
 <div>
   <img height='25px' src="https://img.shields.io/badge/React-20232A??style=plastic&logo=react&logoColor=61DAFB" alt="React">
   <img height='25px' src="https://img.shields.io/badge/TypeScript-20232A??style=plastic&logo=typescript&logoColor=3178C6" alt="TypeScript">
-  <div>
+  <p>Ветка redux</p>
+  <img height='25px' src="https://img.shields.io/badge/Redux-20232A??style=plastic&logo=redux&logoColor=764ABC" alt="Redux">
   <p>Ветка zustand</p>
   <img height='25px' src="https://img.shields.io/badge/Zustand-20232A??style=plastic&logoColor=764ABC" alt="Zustand.">
-  <div>
-  <!-- <div>
-  <p>Ветка redux-toolkit</p>
-  <img height='25px' src="https://img.shields.io/badge/Redux Toolkit-20232A??style=plastic&logo=redux&logoColor=764ABC" alt="Redux Toolkit">
-  <div> -->
+  <p>Ветка mobx</p>
+  <img height='25px' src="https://img.shields.io/badge/MobX-20232A??style=plastic&logo=Mobx&logoColor=FF9955" alt="Mobx">
+  <p>Ветка effector</p>
+  <img height='25px' src="https://img.shields.io/badge/Effector-20232A??style=plastic&logo=Effector&logoColor=FF9955" alt="Effector">
+
   <!-- <img height='25px' src="https://img.shields.io/badge/Axios-20232A??style=for-the-badge&logo=Axios&logoColor=5A29E4" alt="Axios"> -->
 </div>
 
@@ -43,4 +46,3 @@ Todo с использованием разных стейт менеджеро�
 <!-- <div align="center">
   <img width="575" alt="Приложение." src="./src/images/app.png">
 </div> -->
-

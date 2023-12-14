@@ -13,3 +13,9 @@ export enum FilterData {
 export interface TaskState {
   [key: string]: IListItem[]
 }
+
+export interface TodoList {
+  id: string;
+  title: string;
+  filter: string;
+}
