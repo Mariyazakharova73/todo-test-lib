@@ -23,7 +23,6 @@ class Tasks {
     const newTask = { id: v1(), completed: false, text };
     const selectedTAsksArray = this.tasks[todolistId];
     this.tasks[todolistId] = [...selectedTAsksArray, newTask];
-    console.log(this.tasks[todolistId]);
   }
 
   removeTask(todolistId: string, taskId: string) {
@@ -37,11 +36,11 @@ class Tasks {
   }
   editTask(todolistId: string, taskId: string, text: string) {
     const selectedTask = this.tasks[todolistId].find((task) => task.id === taskId);
-    console.log(selectedTask);
     if (selectedTask) {
-      console.log(text);
       selectedTask.text = text;
     }
+    // ????
+    this.tasks[todolistId] = [...this.tasks[todolistId]]
   }
   addEmptyTask(todolistId: string) {
     this.tasks[todolistId] = [];

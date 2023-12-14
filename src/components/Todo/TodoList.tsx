@@ -15,6 +15,7 @@ export interface TodoListProps {
 }
 
 const TodoList: FC<TodoListProps> = ({ title, filteredTasks, todolistId }) => {
+  
   const addNewTask = (title: string) => {
     taskStore.cteateTask(todolistId, title)
   };

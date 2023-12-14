@@ -3,7 +3,7 @@ import './App.css';
 import { FilterData } from './types';
 import Form from './components/Form/Form';
 import TodoList from './components/Todo/TodoList';
-import { dataForFilter, todolistId1 } from './utils/utils';
+import { dataForFilter } from './utils/utils';
 import { v1 } from 'uuid';
 import { observer } from 'mobx-react-lite';
 import todo from './store/todolists';
@@ -28,7 +28,6 @@ function App() {
 
       {todo.todolists?.map((todolist) => {
         let filteredTasks = taskStore.tasks[todolist.id];
-        //console.log(filteredTasks)
 
         switch (dataForFilter[Number(todolist.filter)]) {
           case FilterData.ONLY_COMPLETED:
